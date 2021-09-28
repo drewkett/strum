@@ -73,7 +73,7 @@ pub fn enum_iter_inner(ast: &DeriveInput) -> syn::Result<TokenStream> {
         }
 
         impl #impl_generics #iter_name #ty_generics #where_clause {
-            fn get(&self, idx: usize) -> Option<#name #ty_generics> {
+            const fn get(idx: usize) -> Option<#name #ty_generics> {
                 match idx {
                     #(#arms),*
                 }
@@ -113,7 +113,7 @@ pub fn enum_iter_inner(ast: &DeriveInput) -> syn::Result<TokenStream> {
                     None
                 } else {
                     self.idx = idx;
-                    self.get(idx - 1)
+                    Self::get(idx - 1)
                 }
             }
         }
@@ -136,7 +136,7 @@ pub fn enum_iter_inner(ast: &DeriveInput) -> syn::Result<TokenStream> {
                     None
                 } else {
                     self.back_idx = back_idx;
-                    self.get(#variant_count - self.back_idx)
+                    Self::get(#variant_count - self.back_idx)
                 }
             }
         }
